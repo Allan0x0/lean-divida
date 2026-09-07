@@ -1,0 +1,22 @@
+{
+  "name": "@lean-divida/server",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "start": "tsx src/index.ts",
+    "typecheck": "tsc"
+  },
+  "dependencies": {
+    "@lean-divida/api": "workspace:*",
+    "@trpc/server": "11.6.0",
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^22",
+    "tsx": "^4.20.6",
+    "typescript": "^5.8.3"
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "name": "@lean-divida/web",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc"
+  },
+  "dependencies": {
+    "@lean-divida/api": "workspace:*",
+    "@tanstack/react-query": "^5.62.0",
+    "@trpc/client": "11.6.0",
+    "@trpc/react-query": "11.6.0",
+    "dayjs": "1.11.13",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-router-dom": "^7.8.1",
+    "superjson": "2.2.2",
+    "tailwind-merge": "3.6.0",
+    "zod": "^4.0.17"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.1.4",
+    "@types/react": "^19.1.2",
+    "@types/react-dom": "^19.1.2",
+    "@vitejs/plugin-react": "^4.3.4",
+    "tailwindcss": "^4.1.4",
+    "typescript": "^5.8.3",
+    "vite": "^6.3.3"
+  }
+}

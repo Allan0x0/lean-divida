@@ -1,0 +1,30 @@
+{
+  "name": "lean-divida",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "engines": {
+    "node": ">=22",
+    "pnpm": ">=10"
+  },
+  "packageManager": "pnpm@10.33.0",
+  "pnpm": {
+    "onlyBuiltDependencies": ["@prisma/client", "@prisma/engines", "prisma", "esbuild"]
+  },
+  "scripts": {
+    "dev": "pnpm -r --parallel run dev",
+    "build": "pnpm --filter @lean-divida/web run build",
+    "start": "pnpm --filter @lean-divida/server run start",
+    "generate": "pnpm --filter @lean-divida/api run generate",
+    "lint": "eslint .",
+    "typecheck": "pnpm -r run typecheck"
+  },
+  "devDependencies": {
+    "@eslint/js": "9.25.0",
+    "@types/node": "^22",
+    "eslint": "9.25.0",
+    "globals": "17.6.0",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "8.59.2"
+  }
+}
