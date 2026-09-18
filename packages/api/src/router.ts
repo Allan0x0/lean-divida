@@ -65,12 +65,12 @@ export const appRouter = router({
             where: { email: input.email },
           });
           if (!user) {
-            throw new Error("Invalid credentials");
+            throw new TRPCError({ code: "UNAUTHORIZED", cause: "Invalid credentials" });
           }
 
           const isValid = await bcrypt.compare(input.password, user.passwordHash);
           if (!isValid) {
-            throw new Error("Invalid credentials");
+            throw new TRPCError({ code: "UNAUTHORIZED", cause: "Invalid credentials" });
           }
 
           const { id, userType } = user;

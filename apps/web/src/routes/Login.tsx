@@ -5,32 +5,34 @@ import { useLogin } from '../auth';
 import { Button } from '@/components/Button';
 import Card from '@/components/Card';
 import { TextField } from '@/components/TextField';
+import { getErrorMessage } from '@/lib/errors';
 
-export function LoginPage() {
+export function Login() {
   const navigate = useNavigate();
   const login = useLogin();
 
-  const usernameRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (login.isError) {
-      window.alert(login.error.message);
+      const errorMessage = getErrorMessage(login.error);
+      window.alert(errorMessage);
     }
   }, [login.isError]);
 
   function handleSubmit(event: FormEvent) {
     event.preventDefault();
     const rawInput = {
-      username: usernameRef.current?.value,
+      email: emailRef.current?.value,
       password: passwordRef.current?.value,
     }
     const validation = LoginSchema.safeParse(rawInput);
     if (!validation.success) {
-      window.alert(validation.error.message);
+      window.alert(`> ${validation.error.issues[0]?.message ?? "Check your input."}`);
       return;
     }
-    
+
     login.mutate(validation.data, {
       onSuccess: () => navigate("/leads", { replace: true }),
     });
@@ -38,12 +40,12 @@ export function LoginPage() {
 
   return (
     <form method="post" onSubmit={handleSubmit} className="h-screen flex flex-col justify-center items-center p-6">
-      <Card className="p-0 w-full md:w-3/5 lg:w-2/5">
+      <Card className="p-0 w-full md:w-md">
         <div className="flex flex-col justify-center items-center border-b border-stone-200 px-6 py-4">
           <h1 className="text-xl font-semibold">Divida - Log In</h1>
         </div>
         <div className="flex flex-col items-stretch py-4 gap-4 px-6">
-          <TextField ref={usernameRef} name="username" placeholder="Enter username" type="text" required />
+          <TextField ref={emailRef} name="email" placeholder="Enter email" type="email" required />
           <TextField ref={passwordRef} name="password" placeholder="Enter password" type="password" required />
         </div>
         <div className="flex flex-col items-stretch border-t border-stone-200 py-4 px-6">
