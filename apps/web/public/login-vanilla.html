@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Divida - Vanilla JS Log In</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body>
+  <div class="h-screen flex flex-col justify-center items-center p-6">
+    <form id="loginView" method="post"
+      class="bg-white rounded-xl border-stone-200 border flex flex-col items-stretch shadow-xl p-0 w-full md:w-md">
+      <div class="flex flex-col justify-center items-center border-b border-stone-200 px-6 py-4">
+        <h1 class="text-xl font-semibold">Divida - Log In</h1>
+      </div>
+      <div class="flex flex-col items-stretch py-4 gap-4 px-6">
+        <div class="flex flex-col items-stretch">
+          <input id="email" name="email" type="email" placeholder="Enter email" required
+            class="px-4 py-3 border-stone-200 border rounded-md bg-white text-black" />
+        </div>
+        <div class="flex flex-col items-stretch">
+          <input id="password" name="password" type="password" placeholder="Enter password" required
+            class="px-4 py-3 border-stone-200 border rounded-md bg-white text-black" />
+        </div>
+      </div>
+      <div class="flex flex-col items-stretch border-t border-stone-200 py-4 px-6">
+        <button id="submitBtn" type="submit" class="px-4 py-3 text-white font-semibold bg-teal-600 rounded-lg">
+          Log In
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <script type="module">
+    import { z } from "https://esm.sh/zod@4.5.4";
+
+    const PASSWORD = "default@6781";
+
+    const USERS = [
+      { id: "u1", name: "Admin User", email: "admin@example.com", userType: "ADMIN" },
+      { id: "u2", name: "Officer One", email: "officer1@example.com", userType: "OFFICER" },
+      { id: "u3", name: "Officer Two", email: "officer2@example.com", userType: "OFFICER" },
+    ];
+
+    const EmailSchema = z
+      .email()
+      .min(4)
+      .max(50)
+      .transform((str) => str.toLowerCase().trim());
+
+    const LoginSchema = z.object({
+      email: EmailSchema,
+      password: z.string(),
+    });
+
+    const loginView = document.getElementById("loginView");
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
+
+    function handleSubmit (event) {
+      event.preventDefault();
+      try {
+        const rawInput = {
+          email: emailInput.value,
+          password: passwordInput.value,
+        }
+        const validation = LoginSchema.safeParse(rawInput);
+        if (!validation.success) {
+          throw new Error(validation.error.issues[0]?.message ?? "Check your input.");
+        }
+
+        const user = USERS.find(user => user.email === validation.data.email);
+        if (!user) {
+          throw new Error("No user with that email found, please try again");
+        }
+        const isValid = validation.data.password === PASSWORD;
+        if (!isValid) {
+          throw new Error("Invalid credentials provided, please try again");
+        }
+        window.alert(`Login successful. Welcome ${user.name}`);
+      } catch (error) {
+        const message = error instanceof Error
+          ? error.message
+          : "Something went wrong, please try again";
+        window.alert(`Error: ${message}`);
+      }
+    }
+
+    loginView.addEventListener("submit", handleSubmit);
+  </script>
+</body>
+
+</html>
